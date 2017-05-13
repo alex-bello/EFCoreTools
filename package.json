@@ -1,0 +1,11 @@
+{
+  "devDependencies": {
+    "del": "2.2.2",
+    "dotenv": "^4.0.0",
+    "gulp": "3.9.1",
+    "gulp-dotnet-cli": "^0.2.3",
+    "gulp-json-editor": "2.2.1",
+    "gulp-tap": "1.0.1",
+    "yargs": "^8.0.1"
+  }
+}
