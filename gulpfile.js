@@ -3,6 +3,8 @@ require('dotenv').config()
 var path = require('path');
 var gulp = require('gulp');
 var del = require('del');
+var increment = require('version-incrementer').increment;
+var upsertEnv = require('upsert-env');
 
 
 let {restore, build, test, pack, push} = require('gulp-dotnet-cli');
@@ -26,10 +28,11 @@ gulp.task('restore', ()=>{
 })
 
 //compile 
-gulp.task('build', ['restore'], ()=>{
+gulp.task('build', ['clean:bin_folders', 'restore'], ()=>{
     return gulp.src('**/*.csproj', {read: false})
-        .pipe(build({configuration: configuration, version: version}));
+        .pipe(build({configuration: configuration, version: version, echo: true}));
 });
+
 //run unit tests 
 gulp.task('test', ['build'], ()=>{
     return gulp.src('**/*test*.csproj', {read: false})
@@ -43,6 +46,7 @@ gulp.task('pack', ['build'], ()=>{
             noBuild: true,
             output: path.join(process.cwd(), 'nuget_packages'), 
             version: version,
+            configuration: configuration,
             includeSymbols: true
         }));
 });
@@ -56,9 +60,19 @@ gulp.task('push', ['pack'], ()=>{
 });
 
 gulp.task('clean:nuget', function () {
-  return del([
-    'nuget_packages/*'
-  ]);
+  return del(['nuget_packages/*']);
 });
 
-gulp.task('deploy_solution',['clean:nuget', 'push']);
+gulp.task('clean:bin_folders', () => {
+    return del(['src/**/bin/debug/']);
+});
+
+// Increments the build number by one. Used when deploying solution.
+gulp.task('increment_build_number', () => {
+    version = increment(version);
+    upsertEnv.set({'VERSION_NUMBER': version});
+    return;
+    }
+);
+
+gulp.task('deploy',['increment_build_number', 'clean:nuget', 'push']);
