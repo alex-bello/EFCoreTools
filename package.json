@@ -3,9 +3,11 @@
     "del": "2.2.2",
     "dotenv": "^4.0.0",
     "gulp": "3.9.1",
-    "gulp-dotnet-cli": "^0.2.3",
+    "gulp-dotnet-cli": "0.3.0",
     "gulp-json-editor": "2.2.1",
     "gulp-tap": "1.0.1",
+    "upsert-env": "2.0.2",
+    "version-incrementer": "0.1.1",
     "yargs": "^8.0.1"
   }
 }
