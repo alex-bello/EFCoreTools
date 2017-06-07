@@ -5,4 +5,7 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="1.1.2" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\EFCoreTools.Core\EFCoreTools.Core.csproj" />
+  </ItemGroup>
 </Project>
