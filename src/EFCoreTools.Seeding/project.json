@@ -1,0 +1,36 @@
+{
+  "version": "1.0.4",
+  "userSecretsId": "aspnet-hivdis-tools-f594befa-f80a-4b64-8282-a382ad0d5f1e",
+  "buildOptions": {
+    "emitEntryPoint": true,
+    "debugType": "portable",
+    "copyToOutput": [
+      "appsettings.json",
+      "project.json"
+    ]
+  },
+  "dependencies": {
+    "Hiv.Core": "1.0.2",
+    "Hiv.HivDis": "1.0.4",
+    "Hiv.HivDis.EntityFramework": "1.0.4",
+    "EFCoreTools.SqlServer": "1.0.4",
+    "Microsoft.AspNetCore.Hosting": "1.1.2",
+    "Microsoft.EntityFrameworkCore.SqlServer": "1.1.2",
+    "Microsoft.Extensions.Configuration": "1.1.2",
+    "Microsoft.Extensions.Configuration.Json": "1.1.2",
+    "Microsoft.Extensions.Configuration.UserSecrets": "1.1.2",
+    "Microsoft.Extensions.Logging.Console": "1.1.2",
+    "Microsoft.Extensions.Logging.Debug": "1.1.2",
+    "Newtonsoft.Json": "10.0.2"
+  },
+  "frameworks": {
+    "netcoreapp1.1": {
+      "dependencies": {
+        "Microsoft.NETCore.App": {
+          "type": "platform",
+          "version": "1.1.2"
+        }
+      }
+    }
+  }
+}
