@@ -21,54 +21,28 @@ namespace EFCoreTools.Core.Conventions
         /// <returns>ModelBuilder</returns>
         public void Apply(ModelBuilder modelBuilder)
         {   
-            // Iterate through entities in model and add properties with 
+            // Iterate through entities in model 
             modelBuilder.Model.GetEntityTypes()?
-            .Select(c => c.ClrType)
-            .ToList()
+            .Select(c => c.ClrType) // Get only the ClrTypes
+            .ToList() // Create list to get ForEach iteration
             .ForEach(x => {
-                var d = new List<IndexAttribute>();
+                var d = new List<IndexAttribute>(); // Will store all matched attributes for type
                 x.GetProperties()
-                    .Where(prop => prop.IsDefined(typeof(IndexAttribute), false))
-                    .ToList()
+                    .Where(prop => prop.IsDefined(typeof(IndexAttribute), false)) // Get only properties that have IndexAttribute defined
+                    .ToList() // Create list to get ForEach iteration
                     .ForEach(p => {
-                        var index = p.GetCustomAttribute<IndexAttribute>();
-                        index.PropertyName = p.Name;
-                        d.Add(index);
+                        var index = p.GetCustomAttribute<IndexAttribute>(); // Get attribute
+                        index.PropertyName = p.Name; // Set property name, used for grouping below
+                        d.Add(index); // Add attribute to list
+
+                        d?.GroupBy(attr => attr.Name).Select(sel => sel.Key).ToList()
+                            .ForEach( i => {
+                                var props = d.Where(n => n.Name == i).Select(a => a.PropertyName).ToArray();
+                                var isUnique = (bool)d.FirstOrDefault(n => n.Name == i).IsUnique;
+                                modelBuilder.Entity(x).HasIndex(props).IsUnique(isUnique);
                     });
+                });
             });
-            
-            // If list is not null, get list of distinct index names, loop through list and set index for property using Fluent API
-            d?.GroupBy(x => x.Name).Select(sel => sel.Key).ToList()
-                .ForEach( ind => {
-                    var props = d?.Where(n => n.Name == ind).Select(a => a.PropertyName).ToArray();
-                    var isUnique = (bool)d.FirstOrDefault(n => n.Name == ind).IsUnique;
-                    modelBuilder.Entity(entity.Name).HasIndex(props).IsUnique(isUnique);
-                });
-
-            // // Loop through the entities in the model
-            // foreach (var entity in modelBuilder.Model.GetEntityTypes())
-            // {
-            //     // Declare a list to store all IndexAttribute objects in current entity
-            //     var d = new List<IndexAttribute>();
-                
-            //     // Loop through the current entity's properties
-            //     foreach (var prop in entity.ClrType.GetProperties())
-            //     {
-            //         // If IndexAttribute exists for current property, set PropertyName property and add to the list
-            //         prop.GetCustomAttributes<IndexAttribute>()?.ToList()?.ForEach(x => {
-            //             x.PropertyName = prop.Name;
-            //             d.Add(x);
-            //         });
-            //     }
-
-            // If list is not null, get list of distinct index names, loop through list and set index for property using Fluent API
-            d?.GroupBy(x => x.Name).Select(sel => sel.Key).ToList()
-                .ForEach( ind => {
-                    var props = d?.Where(n => n.Name == ind).Select(a => a.PropertyName).ToArray();
-                    var isUnique = (bool)d.FirstOrDefault(n => n.Name == ind).IsUnique;
-                    modelBuilder.Entity(entity.Name).HasIndex(props).IsUnique(isUnique);
-                });
-            }
         }
     }
 }
