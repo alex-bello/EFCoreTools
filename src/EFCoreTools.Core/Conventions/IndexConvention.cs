@@ -21,6 +21,39 @@ namespace EFCoreTools.Core.Conventions
         /// <returns>ModelBuilder</returns>
         public void Apply(ModelBuilder modelBuilder)
         {   
+            var properties = modelBuilder.GetPropertiesWithAttribute<IndexAttribute>();
+            var d = new List<IndexAttribute>();
+            properties.ForEach(x => {
+                d = x.GetCustomAttributes<IndexAttribute>().ToList().ForEach(a => { a.PropertyName = x.Name; });
+            })
+            properties.GroupBy(x => x.DeclaringType)
+            .Select(t => t.Key)
+            .ToList()
+            .ForEach( t => {
+                var d = properties.Where(x => x.DeclaringType == t);
+                
+                d?.GroupBy(attr => attr.Name).Select(sel => sel.Key)
+                .ToList()
+                .ForEach(x => {
+                    var props = d.Where(n => n.Name == i).Select(a => a.PropertyName).ToArray();
+                    var isUnique = (bool)d.FirstOrDefault(n => n.Name == i).IsUnique;
+                    modelBuilder.Entity(x).HasIndex(props).IsUnique(isUnique);
+                });
+
+                    
+                    var index = p.GetCustomAttribute<IndexAttribute>(); // Get attribute
+                    index.PropertyName = p.Name; // Set property name, used for grouping below
+                    d.Add(index); // Add attribute to list
+                });
+            });
+
+            d?.GroupBy(attr => attr.Name).Select(sel => sel.Key).ToList()
+                            .ForEach( i => {
+                                var props = d.Where(n => n.Name == i).Select(a => a.PropertyName).ToArray();
+                                var isUnique = (bool)d.FirstOrDefault(n => n.Name == i).IsUnique;
+                                modelBuilder.Entity(x).HasIndex(props).IsUnique(isUnique);
+
+            
             // Iterate through entities in model 
             modelBuilder.Model.GetEntityTypes()?
             .Select(c => c.ClrType) // Get only the ClrTypes
