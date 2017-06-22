@@ -5,6 +5,7 @@ using EFCoreTools.Core.Attributes;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 using Microsoft.EntityFrameworkCore.Metadata;
+using EFCoreTools.Core.Extensions;
 
 namespace EFCoreTools.Core.Conventions
 {
@@ -21,16 +22,30 @@ namespace EFCoreTools.Core.Conventions
         /// <returns>ModelBuilder</returns>
         public void Apply(ModelBuilder modelBuilder)
         {   
-            var properties = modelBuilder.GetPropertiesWithAttribute<IndexAttribute>();
             var d = new List<IndexAttribute>();
+            var properties = modelBuilder.GetPropertiesWithAttribute<IndexAttribute>();
+            
             properties.ForEach(x => {
-                d = x.GetCustomAttributes<IndexAttribute>().ToList().ForEach(a => { a.PropertyName = x.Name; });
-            })
-            properties.GroupBy(x => x.DeclaringType)
-            .Select(t => t.Key)
-            .ToList()
-            .ForEach( t => {
-                var d = properties.Where(x => x.DeclaringType == t);
+                
+                var newlist = x.Properties.ToDictionary(p => p.GetCustomAttribute<IndexAttribute>().Name, p => p.GetCustomAttribute<IndexAttribute>().IsUnique);
+                modelBuilder.Entity(x.Entity.ClrType).HasIndex(props).IsUnique(isUnique);
+            });
+
+            // var result = properties.GroupBy(
+            //     props => props.DeclaringType,
+            //     props => props.GetCustomAttributes<IndexAttribute>(),
+            //     (props, attributes) =>
+            //     new {
+            //         Type = props,
+            //         Properties = attributes.Select(x => x.Name) //Average(list => list.Count),
+            //         // AvgCarriagesLength = carriages.SelectMany(carriage => carriage).Average(carr => carr.Length) 
+            //     });
+
+            // properties.GroupBy(x => x.DeclaringType, x => x)
+            // .Select(t => t.Key)
+            // .ToList()
+            // .ForEach( t => {
+            //     var d = properties.Where(x => x.DeclaringType == t);
                 
                 d?.GroupBy(attr => attr.Name).Select(sel => sel.Key)
                 .ToList()
