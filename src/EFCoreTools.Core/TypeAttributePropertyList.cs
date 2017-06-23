@@ -7,12 +7,12 @@ namespace EFCoreTools.Core
 {
     public class TypePropertiesWithAttributeList
     {
-        public IMutableEntityType Entity { get; private set; }
-        public IEnumerable<PropertyInfo> Properties { get; set; }
+        public Type Type { get; private set; }
+        public PropertyInfo[] Properties { get; set; }
 
-        public TypePropertiesWithAttributeList(IMutableEntityType entity, IEnumerable<PropertyInfo> properties) 
+        public TypePropertiesWithAttributeList(Type type, PropertyInfo[] properties) 
         {
-            Entity = entity;
+            Type = type;
             Properties = properties;
         }
     }

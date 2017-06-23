@@ -22,24 +22,36 @@ namespace EFCoreTools.Core.Conventions
         /// <returns>ModelBuilder</returns>
         public void Apply(ModelBuilder modelBuilder)
         {   
-            var d = new List<IndexAttribute>();
-            var properties = modelBuilder.GetPropertiesWithAttribute<IndexAttribute>();
+            var d = modelBuilder
+            .GetAllPropertiesWithAttribute<IndexAttribute>()
+            .ToDictionary(t => t, t => t.GetProperties().Where(p => p.IsDefined(typeof(IndexAttribute), false)));
+
+            
+            foreach (var t in d)
+            {
+                t.GroupBy(p => p.GetCustomAttribute<IndexAttribute>().Name, p => p.Name)
+                .
+            }
+            
+            .ToDictionary(t => t.Key, a => a.GroupBy(a => a.AttributeInfo.Name, a => new { PropertyName = a.PropertyName, IsUnique = a.AttributeInfo.IsUnique)
+            .
+            
+            GetCustomAttribute<IndexAttribute>(), p => p.Name, (n, p) => new { IndexAttribute = n, Properties = p })
+            })
+            .ToDictionary(x => x.)
+            .
+                
+                new { 
+                
+                
+                new { PropertyName = x.Name, AttributeInfo = x.GetCustomAttribute<IndexAttribute>() }, 
+                (t, a) => new { Type = t, AttributeName = a.AttributeInfo.FirstOrDefault(), IsUnique = a.IsUnique })
             
             properties.ForEach(x => {
                 
                 var newlist = x.Properties.ToDictionary(p => p.GetCustomAttribute<IndexAttribute>().Name, p => p.GetCustomAttribute<IndexAttribute>().IsUnique);
                 modelBuilder.Entity(x.Entity.ClrType).HasIndex(props).IsUnique(isUnique);
             });
-
-            // var result = properties.GroupBy(
-            //     props => props.DeclaringType,
-            //     props => props.GetCustomAttributes<IndexAttribute>(),
-            //     (props, attributes) =>
-            //     new {
-            //         Type = props,
-            //         Properties = attributes.Select(x => x.Name) //Average(list => list.Count),
-            //         // AvgCarriagesLength = carriages.SelectMany(carriage => carriage).Average(carr => carr.Length) 
-            //     });
 
             // properties.GroupBy(x => x.DeclaringType, x => x)
             // .Select(t => t.Key)
