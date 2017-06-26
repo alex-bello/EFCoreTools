@@ -4,42 +4,31 @@ var path = require('path');
 var gulp = require('gulp');
 var del = require('del');
 var increment = require('version-incrementer').increment;
-var upsertEnv = require('upsert-env');
-
-
+var jeditor = require('gulp-json-editor');
 let {restore, build, test, pack, push} = require('gulp-dotnet-cli');
-var d = new Date();
-var buildNumber =
-    d.getUTCFullYear() +
-    ("0" + (d.getUTCMonth()+1)).slice(-2) +
-    ("0" + d.getUTCDate()).slice(-2) +
-    ("0" + d.getUTCHours()).slice(-2) +
-    ("0" + d.getUTCMinutes()).slice(-2);
 
-var version = process.env.VERSION_NUMBER || '1.0.0'; // Set version number for project
-if (process.env.ALLOW_JULIAN_DATE_BUILD_NUMBER == "true") { version += '-' + buildNumber; } // If ALLOW_JULIAN_DATE_BUILD_NUMBER true, append build number
+/* ENVIRONMENT VARIABLES */
 var configuration = process.env.BUILD_CONFIGURATION || 'Debug';
 
-
-//restore nuget packages 
+// restore nuget packages 
 gulp.task('restore', ()=>{
-    return gulp.src('**/*.csproj', {read: false})
+    return gulp.src('**/*.sln', {read: false})
             .pipe(restore());
 })
 
-//compile 
+// compile all projects in solution file(s)
 gulp.task('build', ['clean:bin_folders', 'restore'], ()=>{
-    return gulp.src('**/*.csproj', {read: false})
+    return gulp.src('**/*.sln', {read: false})
         .pipe(build({configuration: configuration, version: version, echo: true}));
 });
 
-//run unit tests 
+// run all unit test projects
 gulp.task('test', ['build'], ()=>{
     return gulp.src('**/*test*.csproj', {read: false})
         .pipe(test())
 });
 
-//convert a project to a nuget package 
+// convert a project to a nuget package 
 gulp.task('pack', ['build'], ()=>{
     return gulp.src('**/*.csproj', {read: false})
         .pipe(pack({
@@ -64,15 +53,17 @@ gulp.task('clean:nuget', function () {
 });
 
 gulp.task('clean:bin_folders', () => {
-    return del(['src/**/bin/debug/']);
+    return del(['src/**/bin/']);
 });
 
-// Increments the build number by one. Used when deploying solution.
-gulp.task('increment_build_number', () => {
-    version = increment(version);
-    upsertEnv.set({'VERSION_NUMBER': version});
-    return;
-    }
-);
+gulp.task('increment', () => {
+    return gulp.src('package.json')
+        .pipe(jeditor(function(json) {
+            var versionSplit = json.version.split('-alpha');
+            json.version = (configuration == 'Debug') ? versionSplit[0] + '-alpha' + ((versionSplit[1]) ? (parseInt(versionSplit[1]) + 1) : 1) : increment(versionSplit);
+          return json; // must return JSON object. 
+        }))
+        .pipe(gulp.dest("."));
+});
 
-gulp.task('deploy',['increment_build_number', 'clean:nuget', 'push']);
+gulp.task('deploy',['increment', 'clean:nuget', 'push']);
