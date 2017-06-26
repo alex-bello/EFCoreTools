@@ -9,12 +9,6 @@ var upsertEnv = require('upsert-env');
 
 let {restore, build, test, pack, push} = require('gulp-dotnet-cli');
 var d = new Date();
-var buildNumber =
-    d.getUTCFullYear() +
-    ("0" + (d.getUTCMonth()+1)).slice(-2) +
-    ("0" + d.getUTCDate()).slice(-2) +
-    ("0" + d.getUTCHours()).slice(-2) +
-    ("0" + d.getUTCMinutes()).slice(-2);
 
 var version = process.env.VERSION_NUMBER || '1.0.0'; // Set version number for project
 if (process.env.ALLOW_JULIAN_DATE_BUILD_NUMBER == "true") { version += '-' + buildNumber; } // If ALLOW_JULIAN_DATE_BUILD_NUMBER true, append build number
