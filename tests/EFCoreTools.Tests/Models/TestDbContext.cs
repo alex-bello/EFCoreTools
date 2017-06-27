@@ -1,4 +1,5 @@
 using EFCoreTools.Core.Conventions;
+using EFCoreTools.SqlServer;
 using Microsoft.EntityFrameworkCore;
 
 namespace EFCoreTools.Tests.Models
@@ -18,7 +19,21 @@ namespace EFCoreTools.Tests.Models
         protected override void OnModelCreating(ModelBuilder builder)
         {
             new IndexConvention().Apply(builder);
+            
+            var tableBuilder = new RelationalTableSettingsBuilder();
+            tableBuilder.Add(new RelationalTableSettings(typeof(Person), "admin"));
+            tableBuilder.Apply(builder);
+
             base.OnModelCreating(builder);
+        }
+
+        public static TestDbContext New(string inMemoryDbName)
+        {
+            var options = new DbContextOptionsBuilder<TestDbContext>()
+                .UseInMemoryDatabase(databaseName: inMemoryDbName)
+                .Options;
+
+            return new TestDbContext(options);
         }
         
     }
