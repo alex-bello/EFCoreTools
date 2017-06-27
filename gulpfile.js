@@ -3,12 +3,17 @@ require('dotenv').config()
 var path = require('path');
 var gulp = require('gulp');
 var del = require('del');
+var gutil = require('gulp-util');
 var increment = require('version-incrementer').increment;
 var jeditor = require('gulp-json-editor');
+var pjson = require('./package.json');
+var runSequence = require('run-sequence');
+var wait = require('gulp-wait');
 let {restore, build, test, pack, push} = require('gulp-dotnet-cli');
 
 /* ENVIRONMENT VARIABLES */
 var configuration = process.env.BUILD_CONFIGURATION || 'Debug';
+var version = process.env.VERSION || pjson.version;
 
 // restore nuget packages 
 gulp.task('restore', ()=>{
@@ -30,7 +35,11 @@ gulp.task('test', ['build'], ()=>{
 
 // convert a project to a nuget package 
 gulp.task('pack', ['build'], ()=>{
-    return gulp.src('**/*.csproj', {read: false})
+    return gulp.src(['**/*.csproj', '!./tests/**/*'], {read: false})
+        .pipe(jeditor(function(json) {
+            version = json.version;
+            return json; // must return JSON object. 
+        }))
         .pipe(pack({
             noBuild: true,
             output: path.join(process.cwd(), 'nuget_packages'), 
@@ -48,12 +57,18 @@ gulp.task('push', ['pack'], ()=>{
                     source: process.env.NUGET_SOURCE}));
 });
 
-gulp.task('clean:nuget', function () {
+gulp.task('clean:nuget', ['wait'], () => {
   return del(['nuget_packages/*']);
 });
 
-gulp.task('clean:bin_folders', () => {
+gulp.task('clean:bin_folders', ['wait'], () => {
     return del(['src/**/bin/']);
+});
+
+gulp.task('wait', () => {
+    gutil.log('Waiting 5 seconds...'); 
+    wait(5000); // Wait 5 seconds for all file locks to be removed.
+    gutil.log('Wait completed, continuing...');
 });
 
 gulp.task('increment', () => {
@@ -66,4 +81,13 @@ gulp.task('increment', () => {
         .pipe(gulp.dest("."));
 });
 
-gulp.task('deploy',['increment', 'clean:nuget', 'push']);
+//gulp.task('deploy',['increment', 'clean:nuget', 'push']);
+gulp.task('deploy', () => {
+	runSequence(
+        'clean:nuget',
+		'build',
+		'increment',
+        'wait',
+        'push'
+	);
+});
