@@ -14,12 +14,9 @@ namespace EFCoreTools.Tests
         public void IndexConventionTests()
         {
             // Assign
-            var options = new DbContextOptionsBuilder<TestDbContext>()
-                .UseInMemoryDatabase(databaseName: "index_convention_tests")
-                .Options;
+            var context = TestDbContext.New("index_convention_tests");
 
             // Act
-            var context = new TestDbContext(options);
             var personEntity = context.Model.FindEntityType(typeof(Person));
             var indexes = personEntity.GetIndexes();
 

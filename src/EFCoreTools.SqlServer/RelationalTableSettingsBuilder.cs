@@ -10,9 +10,9 @@ namespace EFCoreTools.SqlServer
     /// <summary>
     /// Collection of Relational Table Settings that will be applied to Entity Types that inherit from specified types during OnModelCreating
     /// </summary>
-    public class TableSettingsBuilder
+    public class RelationalTableSettingsBuilder
     {
-        protected ICollection<TableSettings> TableSettings { get; set; } = new List<TableSettings>();
+        protected ICollection<RelationalTableSettings> TableSettings { get; set; } = new List<RelationalTableSettings>();
         public Func<string, string> DefaultTableNameFormat { get; set; }
         public Func<string, string> DefaultPropertyNameFormat { get; set; }
         public Func<IMutableEntityType, string> DefaultPrimaryKeyNameFormat { get; set; }
@@ -21,7 +21,7 @@ namespace EFCoreTools.SqlServer
         /// <summary>
         /// Default Constructor.
         /// </summary>
-        public TableSettingsBuilder()
+        public RelationalTableSettingsBuilder()
         {
             
         }
@@ -30,7 +30,7 @@ namespace EFCoreTools.SqlServer
         /// Method that adds a new convention to the collection for later application.
         /// </summary>
         /// <param name="tableSettings">The settings that should be applied to a relational table.</param>
-        public void Add(TableSettings tableSettings)
+        public void Add(RelationalTableSettings tableSettings)
         {
             // Remove existing settings for the type, if any
             TableSettings.Remove(TableSettings.SingleOrDefault(x => x.EntityType == tableSettings.EntityType));
@@ -43,7 +43,7 @@ namespace EFCoreTools.SqlServer
         /// Method that removes a convention from the collection.
         /// </summary>
         /// <param name="tableSettings">The settings that should be applied to a relational table.</param>
-        public void Remove(TableSettings tableSettings)
+        public void Remove(RelationalTableSettings tableSettings)
         {
             // Remove existing settings for the type, if any
             TableSettings.Remove(TableSettings.SingleOrDefault(x => x.EntityType == tableSettings.EntityType));
