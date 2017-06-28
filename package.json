@@ -1,6 +1,6 @@
 {
   "name": "efcoretools",
-  "version": "1.0.2-alpha7",
+  "version": "1.0.3-alpha2",
   "description": "Entity Framework Core Tools",
   "private": true,
   "contributors": [{
@@ -11,7 +11,8 @@
     "del": "2.2.2",
     "dotenv": "^4.0.0",
     "gulp": "3.9.1",
-    "gulp-dotnet-cli": "0.3.0",
+    "gulp-debug": "3.1.0",
+    "gulp-dotnet-cli-v1": "git+https://github.com/alex-bello/gulp-dotnet-cli-v1.git",
     "gulp-json-editor": "2.2.1",
     "gulp-tap": "1.0.1",
     "gulp-util": "3.0.8",

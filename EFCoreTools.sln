@@ -1,17 +1,17 @@
 
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26124.0
-MinimumVisualStudioVersion = 15.0.26124.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{1E6B3A0B-8252-467B-8C56-329F5ECF9136}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EFCoreTools.Core", "src\EFCoreTools.Core\EFCoreTools.Core.csproj", "{69F8865B-3678-46B2-86C7-4EE632B335C1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EFCoreTools.Core", "src\EFCoreTools.Core\project.json", "{69F8865B-3678-46B2-86C7-4EE632B335C1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EFCoreTools.SqlServer", "src\EFCoreTools.SqlServer\EFCoreTools.SqlServer.csproj", "{75934436-1446-4220-9C65-C3C506A8625F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EFCoreTools.SqlServer", "src\EFCoreTools.SqlServer\project.json", "{75934436-1446-4220-9C65-C3C506A8625F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{4742C79C-6F86-4F4A-ACF6-8D765DAE36A2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EFCoreTools.Tests", "tests\EFCoreTools.Tests\EFCoreTools.Tests.csproj", "{36D74BEC-0E29-491C-AD97-DF28ABE5E002}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EFCoreTools.Tests", "tests\EFCoreTools.Tests\project.json", "{36D74BEC-0E29-491C-AD97-DF28ABE5E002}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
