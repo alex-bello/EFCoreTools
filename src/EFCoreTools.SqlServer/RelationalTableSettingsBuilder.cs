@@ -63,7 +63,7 @@ namespace EFCoreTools.SqlServer
                 modelBuilder.Model.GetEntityTypes()?.ToList()?.ForEach(x => {
 
                     // Check to see if the current EntityType matches the EntityType the TableSettings apply to, if not exit
-                    if (!table.EntityType.GetTypeInfo().IsAssignableFrom(x.ClrType)) return;
+                    if (!table.EntityType.IsAssignableFrom(x.ClrType)) return;
 
                     // Check if Schema is not null and if so, set Schema value
                     if (!string.IsNullOrWhiteSpace(table.Schema)) x.Relational().Schema = table.Schema;
