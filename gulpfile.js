@@ -36,7 +36,7 @@ gulp.task('increment', () => {
 
 // restore nuget packages 
 gulp.task('restore', ()=>{
-    return gulp.src(fileList, {read: false})
+    return gulp.src('**/project.json', {read: false})
             .pipe(restore());
 })
 
