@@ -3,10 +3,12 @@
   "version": "1.0.3-alpha2",
   "description": "Entity Framework Core Tools",
   "private": true,
-  "contributors": [{
-    "name": "Alex Bello",
-    "email": "alex.bello@uberops.com"
-  }],
+  "contributors": [
+    {
+      "name": "Alex Bello",
+      "email": "alex.bello@uberops.com"
+    }
+  ],
   "devDependencies": {
     "del": "2.2.2",
     "dotenv": "^4.0.0",
