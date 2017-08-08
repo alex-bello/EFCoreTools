@@ -13,16 +13,12 @@ namespace EFCoreTools.Tests
         [TestMethod]
         public void CreateUniqueIndexTest()
         {
-            /***************
-                ASSIGN
-            ****************/
+            /**** ASSIGN ****/
 
             // Create a TestDbContext object using SQLite db.
             var context = TestDbContext.New("index_convention_tests");
 
-            /***************
-                ACT
-            ****************/
+            /**** ACT ****/
 
             // Grab the Person Entity from the Model.
             var personEntity = context.Model.FindEntityType(typeof(Person));
@@ -34,9 +30,7 @@ namespace EFCoreTools.Tests
             var zipCodeIndex = personEntity.GetIndexes().FirstOrDefault(x => x.SqlServer().Name.ToLower() == "ix_person_zipcode");
             var fullNameIndex = personEntity.GetIndexes().FirstOrDefault(x => x.SqlServer().Name.ToLower() == "ix_person_lastname_firstname_middlename");
 
-            /***************
-                ASSERT
-            ****************/
+            /**** ASSERT ****/
 
             // Verify that the Person Entity exists in the Model.
             Assert.IsNotNull(personEntity);
