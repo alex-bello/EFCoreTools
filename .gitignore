@@ -254,8 +254,7 @@ paket-files/
 
 # JetBrains Rider
 .idea/
-<<<<<<< HEAD
 *.sln.iml
-=======
-*.sln.iml
->>>>>>> 61f9b21... Initial commit
+
+# MacOS Files
+.DS_Store
