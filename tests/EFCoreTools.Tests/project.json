@@ -4,8 +4,7 @@
     "debugType": "portable"
   },
 	"dependencies": {
-    "EFCoreTools.Core" : "1.0.3-*",
-    "EFCoreTools.SqlServer": "1.0.3-*",
+    "EFCoreTools" : "1.0.3-*",
 		"Microsoft.NETCore.Platforms": "1.1.0-*",
     "Microsoft.EntityFrameworkCore": "1.1.2",
 		"Microsoft.EntityFrameworkCore.InMemory": "1.1.2",
