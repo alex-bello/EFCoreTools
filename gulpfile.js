@@ -5,62 +5,70 @@ var gulp = require('gulp');
 var debug = require('gulp-debug');
 var del = require('del');
 var gutil = require('gulp-util');
-var increment = require('version-incrementer').increment;
-var jeditor = require('gulp-json-editor');
 var runSequence = require('run-sequence');
-var wait = require('gulp-wait');
-let {restore, build, test, pack, push} = require('gulp-dotnet-cli-v1');
+var prettyjson = require('format-json-pretty');
+var fs = require('fs');
+let {restore, build, test, pack, push} = require('gulp-dotnet-cli');
 
-/* ENVIRONMENT VARIABLES */
-var configuration = process.env.BUILD_CONFIGURATION || 'Debug';
-var fileList = ['src/**/project.json', '!**/bin/**/*', '!tests/**'];
+/* GET package.json VALUES */
+var packageJson = JSON.parse(fs.readFileSync('./package.json'));
 
-gulp.task('clean:nuget', ['wait'], () => {
+/* SET VARIABLE VALUES */
+var build_configuration = process.env.BUILD_CONFIGURATION || 'Debug';
+var isDebug = (build_configuration.toLowerCase() === 'debug');
+
+// Removes all files from the nuget_packages folder
+gulp.task('clean:nuget', (cb) => {
   return del(['nuget_packages/*']);
+  cb(err);
 });
 
-gulp.task('clean:bin_folders', ['wait'], () => {
+// Removes all files from all bin folders in any subdirectory
+gulp.task('clean:bin_folders', (cb) => {
     return del(['src/**/bin/']);
+    cb(err);
 });
 
-gulp.task('increment', () => {
-    return gulp.src(['src/**/project.json', 'package.json', '!**/bin/**/*'], {base: "./"})
-        .pipe(debug())
-        .pipe(jeditor(function(json) {
-            var versionSplit = json.version.split('-alpha');
-            json.version = (configuration == 'Debug') ? versionSplit[0] + '-alpha' + ((versionSplit[1]) ? (parseInt(versionSplit[1]) + 1) : 1) : increment(versionSplit);
-            return json; // must return JSON object. 
-        }))
-        .pipe(gulp.dest("./"));
+gulp.task('increment', (cb) => {
+    packageJson.version = semverIncrementer(packageJson.version, isDebug);
+    fs.writeFile('./package.json', prettyjson(packageJson, 4), cb);
+    return;
 });
 
 // restore nuget packages 
-gulp.task('restore', ()=>{
-    return gulp.src('**/project.json', {read: false})
-            .pipe(restore());
+gulp.task('restore', (cb) => {
+    return gulp.src('*.sln', {read: false})
+        .pipe(restore());
+    cb(err);
 })
 
 // compile all projects in solution file(s)
-gulp.task('build', ['restore'], ()=>{
-    return gulp.src(fileList, {read: false})
+gulp.task('build', (cb) => {
+    return gulp.src('*.sln', {read: false})
         .pipe(build({
-            configuration: configuration
+            configuration: build_configuration,
+            echo: true,
+            version: packageJson.version
         }));
+    cb(err);
 });
 
 // convert a project to a nuget package 
-gulp.task('pack', ()=>{
-    return gulp.src(fileList, {read: false})
+gulp.task('pack', (cb) => {
+    return gulp.src('*.sln', {read: false})
         .pipe(pack({
+            configuration: build_configuration,
+            includeSymbols: false,
             noBuild: true,
-            output: path.join(process.cwd(), 'nuget_packages'), 
-            configuration: configuration
+            output: path.join(process.cwd(), 'nuget_packages'),
+            version: packageJson.version            
         }));
+    cb(err);
 });
 
 //push nuget packages to a server 
 gulp.task('push', () => {
-    return gulp.src(['nuget_packages/*.nupkg'], {read: false})
+    return gulp.src(['nuget_packages/*.nupkg', '!nuget_packages/*symbols.nupkg'], {read: false})
         .pipe(push({
             apiKey: process.env.NUGET_API_KEY, 
             source: process.env.NUGET_SOURCE
@@ -68,26 +76,33 @@ gulp.task('push', () => {
 });
 
 // run all unit test projects
-gulp.task('test', ()=>{
-    return gulp.src('tests/**/project.json', {read: false})
-        .pipe(test())
+gulp.task('test', (cb) => {
+    return gulp.src('*.sln', {read: false})
+        .pipe(test());
+    cb(err);
 });
 
 gulp.task('wait', () => {
-    gutil.log('Waiting 10 seconds...'); 
-    wait(10000); // Wait 10 seconds for all file locks to be removed.
+    
+    gutil.log('Waiting 5 seconds...'); 
+    wait(5000); // Wait 10 seconds for all file locks to be removed.
     gutil.log('Wait completed, continuing...');
+    return;
 });
 
-//gulp.task('deploy',['increment', 'clean:nuget', 'push']);
-gulp.task('build_sequence', () => {
-	runSequence(
+gulp.task('build_task', (cb) => {
+	return runSequence(
+        'clean:nuget',
         'clean:bin_folders',
+        'increment',
         'wait',
         'build',
         'wait',
+        'test',
+        'wait',
         'pack'
-	);
+    );
+    cb(err);
 });
 
 //gulp.task('deploy',['increment', 'clean:nuget', 'push']);
@@ -104,3 +119,34 @@ gulp.task('deploy', () => {
         'push'
 	);
 });
+
+
+/* CUSTOM FUNCTIONS */
+
+function semverIncrementer(version, isPreRelease, preReleaseLabel = 'alpha') {
+    
+    // throw error if version does not satisfy semver spec
+    if (!/^([0-9]{1,}\.){2,2}[0-9]{1,}([-][a-z]{1,}[0-9]{1,})?$/.test(version)) throw new Error ('version does not match semver format.')
+
+    // split off preRelease
+    var x = version.split('-');
+
+    // if not preRelease, just increment the patch number and return
+    if (!isPreRelease)
+    {
+        version = x[0].split('.');
+        version[2] = parseInt(version[2]) + 1;
+        return version.join('.');
+    }
+
+    // if preReleaseLabel matches current label, increment, else restart with new preReleaseLabel and return
+    return x[0] + '-' + (x.length != 2 || !(x[1].startsWith(preReleaseLabel)) ? (preReleaseLabel + '1') : (preReleaseLabel + (parseInt(x[1].replace(preReleaseLabel, '')) + 1)));
+};
+
+function wait(ms){
+    var start = new Date().getTime();
+    var end = start;
+    while(end < start + ms) {
+      end = new Date().getTime();
+   }
+ }

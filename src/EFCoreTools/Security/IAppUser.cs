@@ -1,6 +1,6 @@
 using System;
 
-namespace EFCoreTools.Core.Security
+namespace EFCoreTools.Security
 {
     public class IAppUser
     {

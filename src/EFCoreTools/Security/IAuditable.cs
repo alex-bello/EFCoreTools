@@ -1,6 +1,6 @@
 using System;
 
-namespace EFCoreTools.Core.Security
+namespace EFCoreTools.Security
 {
     /// <summary>
     /// Defines an interface for saving changes to an entity, the minimum of which 

@@ -5,9 +5,10 @@ using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 using Microsoft.EntityFrameworkCore.Metadata;
-using EFCoreTools.Core.Extensions;
+using EFCoreTools.Extensions;
+using EFCoreTools.Attributes;
 
-namespace EFCoreTools.Core.Conventions
+namespace EFCoreTools.Conventions
 {
     /// <summary>
     /// Convention that creates indexes for data model properties with Index Attribute. Compound indexes are created 

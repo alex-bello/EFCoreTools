@@ -1,11 +1,9 @@
 // Copyright (c) Microsoft Open Technologies, Inc. All rights reserved. See https://github.com/aspnet/EntityFramework6/blob/master/License.txt for license information.
 // Modified by Alex Bello <alex.bello@uberops.com> to remove dependencies on EF6 files and to simplify for use in EFCoreTools project.
 
-using System.Diagnostics.CodeAnalysis;
-using System.Runtime.CompilerServices;
-using System.Text;
+using System;
 
-namespace System.ComponentModel.DataAnnotations.Schema
+namespace EFCoreTools.Attributes
 {
     /// <summary>
     /// When this attribute is placed on a property it indicates that the database column to which the

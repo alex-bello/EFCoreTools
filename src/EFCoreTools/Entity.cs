@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace EFCoreTools.Core
+namespace EFCoreTools
 {
     /// <summary>
     /// Represents an entity in the data store with an int type used for the primary key.

@@ -7,6 +7,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{0F95C850-11B
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EFCoreTools", "src\EFCoreTools\EFCoreTools.csproj", "{A408EFE4-3BA6-4DF3-A5D7-0CB32529AD8E}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{CD0A7A94-CF55-48D6-95F7-DF26156E6343}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EFCoreTools.Tests", "tests\EFCoreTools.Tests\EFCoreTools.Tests.csproj", "{19014DF6-E704-40D5-BC31-5345FD84945B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -32,8 +36,21 @@ Global
 		{A408EFE4-3BA6-4DF3-A5D7-0CB32529AD8E}.Release|x64.Build.0 = Release|x64
 		{A408EFE4-3BA6-4DF3-A5D7-0CB32529AD8E}.Release|x86.ActiveCfg = Release|x86
 		{A408EFE4-3BA6-4DF3-A5D7-0CB32529AD8E}.Release|x86.Build.0 = Release|x86
+		{19014DF6-E704-40D5-BC31-5345FD84945B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{19014DF6-E704-40D5-BC31-5345FD84945B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{19014DF6-E704-40D5-BC31-5345FD84945B}.Debug|x64.ActiveCfg = Debug|x64
+		{19014DF6-E704-40D5-BC31-5345FD84945B}.Debug|x64.Build.0 = Debug|x64
+		{19014DF6-E704-40D5-BC31-5345FD84945B}.Debug|x86.ActiveCfg = Debug|x86
+		{19014DF6-E704-40D5-BC31-5345FD84945B}.Debug|x86.Build.0 = Debug|x86
+		{19014DF6-E704-40D5-BC31-5345FD84945B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{19014DF6-E704-40D5-BC31-5345FD84945B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{19014DF6-E704-40D5-BC31-5345FD84945B}.Release|x64.ActiveCfg = Release|x64
+		{19014DF6-E704-40D5-BC31-5345FD84945B}.Release|x64.Build.0 = Release|x64
+		{19014DF6-E704-40D5-BC31-5345FD84945B}.Release|x86.ActiveCfg = Release|x86
+		{19014DF6-E704-40D5-BC31-5345FD84945B}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{A408EFE4-3BA6-4DF3-A5D7-0CB32529AD8E} = {0F95C850-11B2-474D-B073-20A410787330}
+		{19014DF6-E704-40D5-BC31-5345FD84945B} = {CD0A7A94-CF55-48D6-95F7-DF26156E6343}
 	EndGlobalSection
 EndGlobal

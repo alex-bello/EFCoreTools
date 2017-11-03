@@ -1,4 +1,4 @@
-using EFCoreTools.Core.Conventions;
+using EFCoreTools.Conventions;
 using EFCoreTools.SqlServer;
 using Microsoft.EntityFrameworkCore;
 

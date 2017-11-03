@@ -1,6 +1,6 @@
 using System;
 
-namespace EFCoreTools.Core
+namespace EFCoreTools
 {
     public interface IEntity : IEntity<int>
     {

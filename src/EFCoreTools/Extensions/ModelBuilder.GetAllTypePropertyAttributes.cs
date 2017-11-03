@@ -4,9 +4,9 @@ using System.Linq;
 using System.Reflection;
 using Microsoft.EntityFrameworkCore;
 
-namespace EFCoreTools.Core.Extensions
+namespace EFCoreTools.Extensions
 {
-    public static class AttributeExtensionMethods
+    public static partial class AttributeExtensionMethods
     {
         public static IEnumerable<TypePropertyAttributes<T>> GetAllTypePropertyAttributes<T>(this ModelBuilder modelBuilder) 
             where T : Attribute

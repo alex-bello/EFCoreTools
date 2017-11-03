@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using Microsoft.EntityFrameworkCore.Metadata;
 
-namespace EFCoreTools.Core
+namespace EFCoreTools
 {
     public class TypePropertyAttributes<T>
         where T : Attribute

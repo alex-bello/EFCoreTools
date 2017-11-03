@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 
-namespace EFCoreTools.Core.Conventions
+namespace EFCoreTools.Conventions
 {
     public interface IConvention
     {

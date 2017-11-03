@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 
-namespace EFCoreTools.Core
+namespace EFCoreTools
 {
     public interface IDbContext
     {

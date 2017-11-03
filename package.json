@@ -1,26 +1,26 @@
 {
-  "name": "efcoretools",
-  "version": "2.0.1-alpha1",
-  "description": "Entity Framework Core Tools",
-  "private": true,
-  "contributors": [
-    {
-      "name": "Alex Bello",
-      "email": "alex.bello@uberops.com"
+    "name": "efcoretools",
+    "version": "2.0.2-alpha2",
+    "description": "Entity Framework Core Tools",
+    "private": true,
+    "contributors": [{
+        "name": "Alex Bello",
+        "email": "alex.bello@uberops.com"
+    }],
+    "devDependencies": {
+        "del": "2.2.2",
+        "dotenv": "^4.0.0",
+        "gulp": "3.9.1",
+        "format-json-pretty": "1.0.1",
+        "gulp-debug": "3.1.0",
+        "gulp-dotnet-cli": "0.5.0",
+        "gulp-json-editor": "2.2.1",
+        "gulp-tap": "1.0.1",
+        "gulp-util": "3.0.8",
+        "gulp-wait": "0.0.2",
+        "prettyjson": "1.2.1",
+        "run-sequence": "1.2.2",
+        "version-incrementer": "0.1.1",
+        "yargs": "^8.0.1"
     }
-  ],
-  "devDependencies": {
-    "del": "2.2.2",
-    "dotenv": "^4.0.0",
-    "gulp": "3.9.1",
-    "gulp-debug": "3.1.0",
-    "gulp-dotnet-cli": "0.5.0",
-    "gulp-json-editor": "2.2.1",
-    "gulp-tap": "1.0.1",
-    "gulp-util": "3.0.8",
-    "gulp-wait": "0.0.2",
-    "run-sequence": "1.2.2",
-    "version-incrementer": "0.1.1",
-    "yargs": "^8.0.1"
-  }
 }
