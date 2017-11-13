@@ -5,7 +5,7 @@ using System.Reflection;
 using Microsoft​.EntityFrameworkCore​;
 using Microsoft​.EntityFrameworkCore​.Metadata;
 
-namespace EFCoreTools.SqlServer
+namespace EFCoreTools.Relational
 {
     /// <summary>
     /// Collection of Relational Table Settings that will be applied to Entity Types that inherit from specified types during OnModelCreating

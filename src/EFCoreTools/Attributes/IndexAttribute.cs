@@ -3,6 +3,8 @@
 
 using System;
 
+//TODO: Add constructor that takes bool for uniqueness.
+
 namespace EFCoreTools.Attributes
 {
     /// <summary>
@@ -75,8 +77,43 @@ namespace EFCoreTools.Attributes
         /// <param name="order">A number which will be used to determine column ordering for multi-column indexes.</param>
         public IndexAttribute(string name, int order) : this(name, order, null, null) {}
 
+        /// <summary>
+        /// Creates a <see cref="IndexAttribute" /> instance for an index with the given name and column order, 
+        /// but with no clustering or uniqueness specified.
+        /// </summary>
+        /// <remarks>
+        /// Multi-column indexes are created by using the same index name in multiple attributes. The information
+        /// in these attributes is then merged together to specify the actual database index.
+        /// </remarks>
+        /// <param name="name">The index name.</param>
+        /// <param name="isUnique">Indicates whether or not the column values should be unique.</param>
+        public IndexAttribute(string name, bool isUnique) : this(name, null, null, isUnique) {}
+
+        /// <summary>
+        /// Creates a <see cref="IndexAttribute" /> instance for an index with the given name and column order, 
+        /// but with no clustering or uniqueness specified.
+        /// </summary>
+        /// <remarks>
+        /// Multi-column indexes are created by using the same index name in multiple attributes. The information
+        /// in these attributes is then merged together to specify the actual database index.
+        /// </remarks>
+        /// <param name="name">The index name.</param>
+        /// <param name="isClustered">Indicates whether or not the Index should be clustered.</param>
+        /// <param name="isUnique">Indicates whether or not the column values should be unique.</param>
         public IndexAttribute(string name, bool isClustered, bool isUnique) : this(name, null, isClustered, isUnique) {}
 
+        /// <summary>
+        /// Creates a <see cref="IndexAttribute" /> instance for an index with the given name and column order, 
+        /// but with no clustering or uniqueness specified.
+        /// </summary>
+        /// <remarks>
+        /// Multi-column indexes are created by using the same index name in multiple attributes. The information
+        /// in these attributes is then merged together to specify the actual database index.
+        /// </remarks>
+        /// <param name="name">The index name.</param>
+        /// <param name="order">A number which will be used to determine column ordering for multi-column indexes.</param>
+        /// <param name="isClustered">Indicates whether or not the Index should be clustered.</param>
+        /// <param name="isUnique">Indicates whether or not the column values should be unique.</param>
         public IndexAttribute(string name, int? order = null, bool? isClustered = null, bool? isUnique = null)
         {
             if (name == null || name.Trim().Length ==0) throw new ArgumentException("name");

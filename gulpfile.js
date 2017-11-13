@@ -77,8 +77,12 @@ gulp.task('push', () => {
 
 // run all unit test projects
 gulp.task('test', (cb) => {
-    return gulp.src('*.sln', {read: false})
-        .pipe(test());
+    return gulp.src('tests/**/*.csproj', {read: false})
+        .pipe(test(
+            {
+                echo: true
+            }
+        ));
     cb(err);
 });
 

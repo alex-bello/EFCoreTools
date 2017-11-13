@@ -17,8 +17,7 @@ namespace EFCoreTools.Conventions
     /// </summary>
     public class IndexConvention : IConvention
     {
-        //TODO: 
-        // - Implement Ordering of Properties in Index
+        // TODO:  - Implement Ordering of Properties in Index
         
         /// <summary>
         /// Applies the convention to the provided ModelBuilder object and returns the object once the convention is applied.

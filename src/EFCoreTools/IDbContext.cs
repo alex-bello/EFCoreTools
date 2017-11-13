@@ -5,6 +5,7 @@ namespace EFCoreTools
 {
     public interface IDbContext
     {
-         ChangeTracker ChangeTracker { get; }
+        DbSet<TEntity> Set<TEntity>() where TEntity : class;
+        ChangeTracker ChangeTracker { get; }
     }
 }

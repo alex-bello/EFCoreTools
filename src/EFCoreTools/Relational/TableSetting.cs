@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace EFCoreTools.SqlServer
+namespace EFCoreTools.Relational
 {
     public class RelationalTableSettings
     {

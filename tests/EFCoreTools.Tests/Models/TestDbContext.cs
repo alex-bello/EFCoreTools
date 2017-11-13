@@ -1,5 +1,5 @@
 using EFCoreTools.Conventions;
-using EFCoreTools.SqlServer;
+using EFCoreTools.Relational;
 using Microsoft.EntityFrameworkCore;
 
 namespace EFCoreTools.Tests.Models
