@@ -94,17 +94,16 @@ gulp.task('wait', () => {
     return;
 });
 
-gulp.task('build_task', (cb) => {
+gulp.task('try_build', (cb) => {
 	return runSequence(
         'clean:nuget',
         'clean:bin_folders',
-        'increment',
+        'wait',
+        'restore',
         'wait',
         'build',
         'wait',
-        'test',
-        'wait',
-        'pack'
+        'test'
     );
     cb(err);
 });
@@ -112,11 +111,16 @@ gulp.task('build_task', (cb) => {
 //gulp.task('deploy',['increment', 'clean:nuget', 'push']);
 gulp.task('deploy', () => {
 	runSequence(
-        'increment',
         'clean:nuget',
         'clean:bin_folders',
         'wait',
+        'restore',
+        'wait',
         'build',
+        'wait',
+        'test',
+        'wait',
+        'increment',
         'wait',
         'pack',
         'wait',

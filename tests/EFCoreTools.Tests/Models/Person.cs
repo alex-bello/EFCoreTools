@@ -23,7 +23,7 @@ namespace EFCoreTools.Tests.Models
         /// </summary>
         [Column(Order = 1)]
         [StringLength(9)]
-        [Index("SSN", false, true)]
+        [Index("SSN", true)]
         public string Ssn { get; set; }
         
          /// <summary>
