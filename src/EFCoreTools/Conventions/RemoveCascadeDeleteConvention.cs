@@ -23,7 +23,7 @@ namespace EFCoreTools.Conventions
         /// Applies the convention to the provided ModelBuilder object and returns the object once the convention is applied.
         /// </summary>
         /// <returns>ModelBuilder</returns>
-        public void Apply(ModelBuilder modelBuilder)
+        public ModelBuilder Apply(ModelBuilder modelBuilder)
         {   
             var entities = modelBuilder.Model
                 .GetEntityTypes()
@@ -38,6 +38,8 @@ namespace EFCoreTools.Conventions
                     .ForEach( y => y.DeleteBehavior = DeleteBehavior.Restrict);
 
             }
+
+            return modelBuilder;
         }
     }
 }

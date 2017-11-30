@@ -13,9 +13,7 @@ namespace EFCoreTools.Relational
     public class RelationalTableSettingsBuilder
     {
         protected ICollection<RelationalTableSettings> TableSettings { get; set; } = new List<RelationalTableSettings>();
-        public Func<string, string> DefaultTableNameFormat { get; set; }
-        public Func<string, string> DefaultPropertyNameFormat { get; set; }
-        public Func<IMutableEntityType, string> DefaultPrimaryKeyNameFormat { get; set; }
+
         public bool UseClrTypeNamesForTables { get; set; }
 
         /// <summary>
@@ -52,7 +50,7 @@ namespace EFCoreTools.Relational
         /// <summary>
         /// Method that will iterates through all convention objects in the collection, applying changes to the model.
         /// </summary>
-        public void Apply(ModelBuilder modelBuilder)
+        public ModelBuilder Apply(ModelBuilder modelBuilder)
         {
             // Update all table names to ClrType name if needed
             if (UseClrTypeNamesForTables) modelBuilder.Model.GetEntityTypes()?.ToList().ForEach(x => { x.Relational().TableName = x.ClrType.Name; });
@@ -86,44 +84,7 @@ namespace EFCoreTools.Relational
                 });
             }
 
-            ApplyPrimaryKeyNameFormats(modelBuilder);
-            ApplyTableNameFormats(modelBuilder);
-            ApplyPropertyNameFormats(modelBuilder); 
-        }
-
-        public void ApplyPrimaryKeyNameFormats(ModelBuilder modelBuilder)
-        {
-
-            if (DefaultPrimaryKeyNameFormat == null) return;
-
-            // Loop through the entities in the model
-            foreach (var entity in modelBuilder.Model.GetEntityTypes())
-            {
-                // Set the relational column name to the formatted value returned by the annonymous method.
-                entity.GetProperties().SingleOrDefault(x => x.Name == "Id").Relational().ColumnName = DefaultPrimaryKeyNameFormat(entity);
-            }
-        }
-
-        public void ApplyTableNameFormats(ModelBuilder modelBuilder)
-        {
-            if (DefaultTableNameFormat == null) return;
-
-            foreach (var entity in modelBuilder.Model.GetEntityTypes())
-            {
-                entity.Relational().TableName = DefaultTableNameFormat(entity.Relational().TableName);
-            }
-        }
-
-        public void ApplyPropertyNameFormats(ModelBuilder modelBuilder)
-        {
-            if (DefaultPropertyNameFormat == null) return;
-            foreach (var entity in modelBuilder.Model.GetEntityTypes())
-            {
-                foreach (var prop in entity.GetProperties())
-                {
-                    prop.Relational().ColumnName = DefaultPropertyNameFormat(prop.Relational().ColumnName);
-                }
-            }
+            return modelBuilder;
         }
     }
 }

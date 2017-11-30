@@ -23,7 +23,7 @@ namespace EFCoreTools.Conventions
         /// Applies the convention to the provided ModelBuilder object and returns the object once the convention is applied.
         /// </summary>
         /// <returns>ModelBuilder</returns>
-        public void Apply(ModelBuilder modelBuilder)
+        public ModelBuilder Apply(ModelBuilder modelBuilder)
         {   
             // Get IEnumerable<TypePropertyAttribute> of all properties decorated with IndexAttribute
             var typePropertyAttributes = modelBuilder.GetAllTypePropertyAttributes<IndexAttribute>();
@@ -42,6 +42,8 @@ namespace EFCoreTools.Conventions
                     .ForSqlServerIsClustered(p.Select(m => m.Attribute).All(x => x.IsClustered == true)); // Sets IsClustered property to true for the Index object if all IndexAttribute.IsClustered properties are true.
                 }
             }
+
+            return modelBuilder;
         }
     }
 }

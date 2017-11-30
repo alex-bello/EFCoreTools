@@ -1,6 +1,6 @@
 {
     "name": "efcoretools",
-    "version": "0.0.2-alpha2",
+    "version": "0.0.3",
     "description": "Entity Framework Core Tools",
     "private": true,
     "contributors": [{
