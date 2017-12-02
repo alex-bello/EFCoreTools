@@ -25,7 +25,7 @@ namespace EFCoreTools.Tests
             
             // Grab the indexes from the Person Entity in the model.
             var indexCount = personEntity.GetIndexes().Count();
-            var idIndex = personEntity.GetIndexes().FirstOrDefault(x => x.Relational().Name.ToLower() == "ix_person_id");
+            var idIndex = personEntity.GetIndexes().FirstOrDefault(x => x.Relational().Name.ToLower() == "ix_person_personid");
             var ssnIndex = personEntity.GetIndexes().FirstOrDefault(x => x.Relational().Name.ToLower() == "ix_person_ssn");
             var zipCodeIndex = personEntity.GetIndexes().FirstOrDefault(x => x.Relational().Name.ToLower() == "ix_person_zipcode");
             var fullNameIndex = personEntity.GetIndexes().FirstOrDefault(x => x.Relational().Name.ToLower() == "ix_person_lastname_firstname_middlename");
